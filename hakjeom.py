@@ -19,6 +19,6 @@ while True:
         print("입력되었습니다.\n")
 
     else:
-        print(f'제출용: {gpa_sum}학점(GPA: {score_sum/gpa_sum})\n열람용: {gpa_sum+gpa_f}학점(GPA: {score_sum/(gpa_sum+gpa_f)})\n')
+        print(f'제출용: {gpa_sum}학점(GPA: {round(score_sum/gpa_sum,2)})\n열람용: {gpa_sum+gpa_f}학점(GPA: {round(score_sum/(gpa_sum+gpa_f),2)})\n')
         print('프로그램을 종료합니다.')
         break
