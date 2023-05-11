@@ -27,11 +27,23 @@ def clas(str):
 
 while True:
     print("작업을 선택하세요.\n1. 입력\n2. 출력\n3. 조회\n4. 계산\n5. 종료")
-    choice = int(input())
+    try:
+        choice = int(input())
+    except ValueError:
+        print("잘못된 입력입니다.")
+        continue
     match choice:
         case 1:
             print("과목명, 학점, 평점을 입력하세요 : ")
-            sbj_name, sbj_gpa, sbj_grade = input().split(',')
+            try:
+                sbj_name, sbj_gpa, sbj_grade = input().split(',')
+            except ValueError:
+                print("잘못된 입력입니다.")
+                continue
+
+            if (float(sbj_gpa)%1!= 0) or (gradeToNum(sbj_grade) < 0 or gradeToNum(sbj_grade) > 4.5):
+                print("잘못된 입력입니다.")
+                continue
 
             if sbj_name not in [str(i) for i in courses]:
                 globals()[sbj_name] = CourseInfo(sbj_name, sbj_gpa, sbj_grade)
@@ -41,15 +53,28 @@ while True:
                 clas(sbj_name).grade = sbj_grade
         
         case 2:
+            if len(courses) == 0:
+                print("입력된 과목이 없습니다.")
+                continue
+            
             CourseInfo.call_all()
 
         case 3: 
-            course_name = input("과목명을 입력하세요 : ")
+            try:
+                course_name = input("과목명을 입력하세요 : ")
+            except ValueError:
+                print("잘못된 입력입니다.")
+                continue
+            
             if course_name in [str(i) for i in courses]:
                 globals()[course_name].call()
             else: print("해당하는 과목이 없습니다.")
 
         case 4:
+            if len(courses) == 0:
+                print("입력된 과목이 없습니다.")
+                continue
+
             gpaSum = 0
             gpa_f = 0
             scoreSum = 0
@@ -60,7 +85,10 @@ while True:
                 else: gpa_f += sbj.gpa
                 
             print(f"제출용: {gpaSum}학점(GPA: {scoreSum/gpaSum})\n열람용: {gpaSum+gpa_f}학점(GPA: {scoreSum/(gpaSum+gpa_f)})")
-            break
 
         case 5:
             break
+
+        case _:
+            print("잘못된 입력입니다.")
+
